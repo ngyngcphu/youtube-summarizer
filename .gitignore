@@ -3,3 +3,4 @@ bun.lock
 .env
 .windsurfrules
 dist
+.DS_Store
