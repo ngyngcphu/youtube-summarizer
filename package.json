@@ -1,0 +1,44 @@
+{
+  "name": "youtube-summarizer",
+  "version": "0.1.0",
+  "description": "YouTube Video Summarizer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "ts-node src/index.ts",
+    "start": "npm run build && node dist/index.js",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.js,.jsx,.tsx"
+  },
+  "keywords": [
+    "pocketflow",
+    "typescript"
+  ],
+  "author": "Nguyen Ngoc Phu",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@types/node": "^18.16.0",
+    "@types/prompt-sync": "^4.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
+    "prettier": "^2.8.8",
+    "prompt-sync": "^4.2.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.28.0",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.7",
+    "openai": "^4.90.0",
+    "pocketflow": "^1.0.4",
+    "youtube-transcript": "^1.0.6"
+  }
+}
