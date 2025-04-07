@@ -207,10 +207,13 @@ export class ContentAnalysisNode extends Node<YouTubeSummarySharedStore> {
 // Node 3: Map-Reduce Topic Processing Node
 export class TopicProcessingNode extends BatchNode<YouTubeSummarySharedStore, any> {
   /**
-   * MAP PHASE: Step 1 - Split topics into individual processing units
-   * This method extracts the list of topics that will be processed independently
+   * PREP: MAP PHASE preparation - Get topics from shared memory and prepare for batch processing
    */
-  async batchItems(shared: YouTubeSummarySharedStore): Promise<any[]> {
+  async prep(shared: YouTubeSummarySharedStore): Promise<any[]> {
+    // Get topics from shared memory and prepare for batch processing
+    console.log('MAP-REDUCE: Starting topic processing with batch node')
+
+    // Check if we have topics to process
     if (!shared.topics || shared.topics.length === 0) {
       console.log('No topics found, creating a placeholder topic')
       return [{
@@ -224,10 +227,10 @@ export class TopicProcessingNode extends BatchNode<YouTubeSummarySharedStore, an
   }
 
   /**
-   * MAP PHASE: Step 2 - Process each topic independently (the 'map' operation)
-   * This function processes a single topic in isolation, generating Q&As for it
+   * EXEC: MAP PHASE - Process each topic independently (the 'map' operation)
+   * This function processes a single batch item (topic) in isolation
    */
-  async processBatchItem(topic: any): Promise<{ topic: any; questions: Array<{ question: string; answer: string }> }> {
+  async exec(topic: any): Promise<{ topic: any; questions: Array<{ question: string; answer: string }> }> {
     // Validate topic data
     const title = topic?.title || 'Untitled Topic'
     const explanation = topic?.explanation || 'No detailed explanation available.'
@@ -332,10 +335,10 @@ export class TopicProcessingNode extends BatchNode<YouTubeSummarySharedStore, an
   }
 
   /**
-   * REDUCE PHASE: Combine all individual topic results into the final structure
+   * POST: REDUCE PHASE - Combine all individual topic results into the final structure
    * This is the 'reduce' operation that aggregates results from all topics
    */
-  async finalizeBatch(
+  async post(
     shared: YouTubeSummarySharedStore,
     _: unknown,
     batchResults: Array<{ topic: any; questions: Array<{ question: string; answer: string }> }>,
